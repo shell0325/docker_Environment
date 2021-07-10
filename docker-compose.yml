@@ -1,23 +1,18 @@
 version: '3'
-services: 
-  app:
-    #起動イメージ
-    image: node:12
+services:
+  web:
+    build: ./app
     #環境変数
-    environment: 
+    environment:
       - DEBUG=app:*
       - TZ=Asia/Tokyo
     tty: true
     #ホスト側のポート:コンテナ側のポート
-    ports: 
+    ports:
       - '3000:3000'
     #ホスト側のappをコンテナのappにマウント
-    volumes: 
+    volumes:
       - ./app:/app
-    #起動時のカレンとフォルダ
-    working_dir: /app
-    #起動後に実行するコマンド
-    command: npm run dev
   mysqldb:
     image: mysql:5.7
     container_name: mysql_container
@@ -32,5 +27,5 @@ services:
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - '3306:3306'
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
