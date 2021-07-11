@@ -76,3 +76,5 @@ dist
 .tern-port
 # add
 package-lock.json
+
+docker/db/data
