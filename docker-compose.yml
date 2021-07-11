@@ -13,6 +13,7 @@ services:
     #ホスト側のappをコンテナのappにマウント
     volumes:
       - ./app:/app
+      - /app/node_modules
   mysqldb:
     image: mysql:5.7
     container_name: mysql_container
