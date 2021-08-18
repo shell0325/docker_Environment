@@ -1,20 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../db/knex');
 const bcrypt = require('bcrypt');
+const db = require('../models/index');
+const User = db.User;
 
 const validateRegisterInput = require('../validation/register');
 
-router.get('/', checkNotAuthenticated, (req, res) => {
-  knex('user')
-    .select('*')
-    .then(function (result) {
-      console.log(result);
-    });
-  res.render('register.ejs');
+router.get('/', (req, res) => {
+  res.render('register');
 });
 
-router.post('/', checkNotAuthenticated, (req, res, next) => {
+router.post('/', (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
@@ -26,20 +22,20 @@ router.post('/', checkNotAuthenticated, (req, res, next) => {
   const password = req.body.password;
   const repassword = req.body.repassword;
 
-  knex('user')
-    .where({ email: email })
-    .select('*')
+  User.findAll({ where: { email } })
     .then(async function (result) {
       if (result.length !== 0) {
         res.render('register', {
-          errorMessage: ['このユーザーはすでに使用されています。'],
+          errorMessage: ['このメールアドレスはすでに使用されています。'],
         });
       } else if (password === repassword) {
         const hashPassword = await bcrypt.hash(password, 10);
-        console.log('hashPassword');
-        console.log(hashPassword);
-        knex('user')
-          .insert({ username: username, email: email, password: hashPassword })
+        const UserData = {
+          username: username,
+          email: email,
+          password: hashPassword,
+        };
+        User.create(UserData)
           .then(function () {
             res.redirect('/login');
           })
@@ -62,12 +58,5 @@ router.post('/', checkNotAuthenticated, (req, res, next) => {
       });
     });
 });
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/');
-  }
-  next();
-}
 
 module.exports = router;
