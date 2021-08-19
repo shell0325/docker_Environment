@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const passport = require('passport');
 
-const validateLoginInput = require('../validation/login');
+const validateLoginInput = require('../controller/validation/login');
 
 router.get('/', (req, res, next) => {
   res.render('login.ejs');
