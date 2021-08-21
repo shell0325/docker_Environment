@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const passport = require('passport');
-const validateLoginInput = require('./validation/login');
+const validateLoginInput = require('../validation/login');
 
 exports.loginController = (req, res,next) => {
   const { errors, isValid } = validateLoginInput(req.body);

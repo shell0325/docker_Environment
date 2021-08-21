@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-const db = require('../models/index');
+const db = require('../../models/index');
 const User = db.User;
-const validateRegisterInput = require('./validation/register');
+const validateRegisterInput = require('../validation/register');
 
 exports.createUser = (req, res) => {
   console.log(req.body.username);
