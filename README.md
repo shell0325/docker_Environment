@@ -15,4 +15,4 @@ docker-compose logs -f
 開発環境のマイグレーション
 
 #開発環境が立ち上がっている必要があります。  
-docker-compose run app npx sequelize-cli db:migrate
+docker-compose run web npx sequelize-cli db:migrate
