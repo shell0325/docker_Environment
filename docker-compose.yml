@@ -14,14 +14,20 @@ services:
     volumes:
       - ./app:/app
       - /app/node_modules
+    networks:
+      - default
+    depends_on: 
+      - mysqldb
+    links: 
+      - mysqldb
   mysqldb:
     image: mysql:5.7
     container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: my_testdb
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: my_db
+      MYSQL_PASSWORD: my_dbpass
+      MYSQL_ROOT_PASSWORD: my_dbpass
       TZ: 'Asia/Tokyo'
     volumes:
       - ./docker/db/data:/var/lib/mysql
@@ -30,3 +36,9 @@ services:
     ports:
       - '3306:3306'
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+     - default 
+
+networks:
+   default:
+

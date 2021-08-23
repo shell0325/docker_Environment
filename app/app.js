@@ -1,8 +1,22 @@
-var express = require('express'),
-  app = express();
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
+const db = require('./models/index');
+db.sequelize.sync();
+
+
 const port = 3000;
+
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.static('public'));
 
-app.get('/', (req, res) => res.send('Test Express!'));
+require('./config/passport')(app);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.use('/', require('./routes/index'));
+
+app.listen(port);
