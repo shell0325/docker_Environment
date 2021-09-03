@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/usercontroller/finduser.controller');
+const home = require('../controller/usercontroller/home.controller');
+const deleteBtn = require('../controller/usercontroller/delete.controller')
 
-router.get('/', controller.findUser);
+router.get('/', home.homeController);
+
+router.post('/',deleteBtn.deleteController)
 
 module.exports = router;

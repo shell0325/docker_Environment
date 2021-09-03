@@ -4,10 +4,6 @@ const User = db.User;
 const validateRegisterInput = require('../validation/register');
 
 exports.createUser = (req, res) => {
-  console.log(req.body.username);
-  console.log(req.body.email);
-  console.log(req.body.password);
-  console.log(req.body.repassword);
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
@@ -21,9 +17,6 @@ exports.createUser = (req, res) => {
 
   User.findAll({ where: { email } })
     .then(async function (result) {
-      console.log('-----');
-      console.log(req.body.username);
-      console.log(result);
       if (result.length !== 0) {
         res.render('register', {
           errorMessage: ['このメールアドレスはすでに使用されています。'],

@@ -18,5 +18,13 @@ app.use(express.static('public'));
 require('./config/passport')(app);
 
 app.use('/', require('./routes/index'));
+// app.get('/delete/:id', (req, res) => {
+//   console.log(req.params.id)
+// })
+
+// app.post('/delete/:id', (req, res) => {
+//   console.log(req.params.id)
+//   res.redirect('/')
+// })
 
 app.listen(port);

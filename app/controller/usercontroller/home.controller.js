@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const db = require('../../models/index');
+const Dashboard = db.Dashboard;
 
-exports.findUser = async(req, res) => {
+exports.homeController = async (req, res, next) => {
   const cookieToken = req.cookies.token;
   if (cookieToken === undefined) {
     res.redirect('/login');
@@ -13,8 +15,11 @@ exports.findUser = async(req, res) => {
       if (err) {
         return res.sendStatus(403);
       } else {
-        res.render('home', {
-          user,
+        Dashboard.findAll().then(function (results) {
+          res.render('home', {
+            results,
+            user,
+          });
         });
       }
     });
