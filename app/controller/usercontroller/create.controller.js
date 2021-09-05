@@ -7,8 +7,6 @@ const validateDashboardInput = require('../validation/Dashboard');
 exports.createDashboards = async (req, res) => {
   const { errors, isValid } = validateDashboardInput(req.body);
 
-  console.log(isValid);
-
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -42,10 +40,10 @@ exports.createDashboards = async (req, res) => {
   });
 };
 
-exports.createPage = async(req, res) => {
+exports.createPage = async (req, res) => {
   const cookieToken = req.cookies.token;
   if (cookieToken === undefined) {
-    res.redirect('/login')
+    res.redirect('/login');
   }
   const bearer = await cookieToken.split(' ');
   const token = await bearer[0];

@@ -1,16 +1,21 @@
 const db = require('../../models/index');
 const Dashboard = db.Dashboard;
 const jwt = require('jsonwebtoken');
+const validateDashboardInput = require('../validation/Dashboard');
 
 exports.editController = async (req, res) => {
+  const { errors, isValid } = validateDashboardInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const cookieToken = req.cookies.token;
   const bearer = await cookieToken.split(' ');
   const token = await bearer[0];
 
   jwt.verify(token, process.env.secretOrKey, async (err, user) => {
     const editId = req.params.id;
-    console.log('editId');
-    console.log(editId);
     const title = req.body.title;
     const content = req.body.content;
     await Dashboard.update(
@@ -27,7 +32,7 @@ exports.editController = async (req, res) => {
   });
 };
 
-exports.editPage = async(req, res) => {
+exports.editPage = async (req, res) => {
   const cookieToken = req.cookies.token;
   const bearer = await cookieToken.split(' ');
   const token = await bearer[0];
