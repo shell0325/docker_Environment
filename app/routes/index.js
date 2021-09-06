@@ -5,6 +5,6 @@ router.use('/', require('./home'));
 router.use('/login', require('./login'));
 router.use('/register', require('./register'));
 router.use('/logout', require('./logout'));
-router.use('/Dashboard', require('./Dashboard'));
+router.use('/dashboard', require('./dashboard'));
 
 module.exports = router;

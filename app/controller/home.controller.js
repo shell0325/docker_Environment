@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const db = require('../../models/index');
+const db = require('../models/index');
 const Dashboard = db.Dashboard;
 
 exports.homeController = async (req, res, next) => {

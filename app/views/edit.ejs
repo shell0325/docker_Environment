@@ -22,9 +22,9 @@
   <body>
     <form action="/Dashboard/edit/<%=editId%>" method="POST">
       <label>タイトル</label><br />
-      <input type="text" size="51" name="title" id="title" /><br />
+      <input type="text" size="51" name="title" id="title" value=<%= Data.title%> /><br />
       <label>コンテンツ</label><br />
-      <textarea name="content" id="content" cols="50" rows="10"></textarea
+      <textarea name="content" id="content" cols="50" rows="10"><%= Data.content %></textarea
       ><br />
       <button type="submit">編集完了</button>
     </form>
