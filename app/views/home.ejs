@@ -34,8 +34,8 @@
     <br>
     <% if(user.username === results[i].username){%>
       <div id="button">
-        <button onclick="location.href = '/Dashboard/edit/<%=results[i].id%>'" id="editButton">編集</button>
-        <form action="/Dashboard/delete/<%= results[i].id%>?_method=DELETE" method="POST">
+        <button onclick="location.href = '/dashboards/edit/<%=results[i].id%>'" id="editButton">編集</button>
+        <form action="/dashboards/delete/<%= results[i].id%>?_method=DELETE" method="POST">
           <button id="deleteButton" type="submit">削除</button>
         </form>
       </div>

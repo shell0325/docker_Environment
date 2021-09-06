@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const DashboardController = require('../controller/dashboard.controller')
-// const deleteBtn = require('../controller/usercontroller/delete.controller');
-// const createController = require('../controller/usercontroller/create.controller');
-// const editController = require('../controller/usercontroller/edit.controller');
+const DashboardController = require('../controller/dashboard.controller');
 
 router.get('/create/', DashboardController.createPage);
 
