@@ -1,0 +1,9 @@
+#headerul {
+  list-style: none;
+  display: flex;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}

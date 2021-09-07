@@ -4,14 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- CSS only -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="/stylesheets/home.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
@@ -19,36 +18,29 @@
     ></script>
     <title>Document</title>
   </head>
-  <header id="header">
-    <h1>Node.js Lesson4</h1>
-    <ul id="headerul">
-      <li>
-        <button>投稿を作成</button>
-      </li>
-      <li>
-        <li>
-          <button>みんなの投稿</button>
-        </li>
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <%= user.username %>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </header>
+  <%- include('./header'); %>
   <body>
     <h1>home</h1>
     <%- include('./error_messages'); %>
-    <p><%= user.username %>さんようこそ</p>
+    <ul id="content">
+      <% for(let i=0;i<results.length;i++){ %>
+    <li><h1><%= results[i].title %></h1></li>
+    <li><%= results[i].content %></li>
+    <li>投稿者<%= results[i].username %></li>
+    <div class="like">
+    <button class="btn" id="heartBtn"></button>
+    </div>
+    <span class="number"><%= results[i].heartsNumber %></span>
+    <br>
+    <% if(user.username === results[i].username){%>
+      <div id="button">
+        <button onclick="location.href = '/dashboards/edit/<%=results[i].id%>'" id="editButton">編集</button>
+        <form action="/dashboards/delete/<%= results[i].id%>?_method=DELETE" method="POST">
+          <button id="deleteButton" type="submit">削除</button>
+        </form>
+      </div>
+      <% } %>
+    <% } %>
+    </ul>
   </body>
 </html>

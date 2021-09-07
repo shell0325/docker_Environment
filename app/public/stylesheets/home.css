@@ -3,7 +3,61 @@
   display: flex;
 }
 
-header{
+header {
   display: flex;
   justify-content: space-between;
 }
+
+#button{
+  display: flex;
+}
+
+#content {
+  list-style: none;
+}
+
+#editButton {
+  border-radius: 40%;
+  background-color: dodgerblue;
+  color: white;
+}
+
+#deleteButton {
+  border-radius: 40%;
+  color: red;
+  border-color: red;
+}
+
+#hearts {
+  background-image: url('../image/hart-likegray.png');
+}
+
+.like {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.like button.btn {
+  width: 30px;
+  height: 30px;
+  color: #777;
+  line-height: 2em;
+  padding: 5px 10px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#fff),
+    to(#eee)
+  );
+  background-color: #eee;
+  background-image: url('../image/ダウンロード.jpeg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.75;
+  border: none;
+}
+

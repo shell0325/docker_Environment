@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt');
-const db = require('../../models/index');
+const db = require('../models/index');
 const User = db.User;
-const validateRegisterInput = require('../validation/register');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const passport = require('passport');
+const validateRegisterInput = require('./validation/register');
+const validateLoginInput = require('./validation/login');
 
 exports.createUser = (req, res) => {
-  console.log(req.body.username);
-  console.log(req.body.email);
-  console.log(req.body.password);
-  console.log(req.body.repassword);
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
@@ -21,9 +21,6 @@ exports.createUser = (req, res) => {
 
   User.findAll({ where: { email } })
     .then(async function (result) {
-      console.log('-----');
-      console.log(req.body.username);
-      console.log(result);
       if (result.length !== 0) {
         res.render('register', {
           errorMessage: ['このメールアドレスはすでに使用されています。'],
@@ -57,4 +54,43 @@ exports.createUser = (req, res) => {
         errorMessage: ['err.sqlMessage'],
       });
     });
+};
+
+exports.loginController = (req, res, next) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  passport.authenticate('login', async (err, user, info) => {
+    try {
+      if (err || !user) {
+        res.render('login', {
+          errorMessage: ['このユーザーは存在しません'],
+        });
+      }
+      if (user.email !== req.body.email) {
+        res.render('login', {
+          errorMessage: ['ユーザー情報が間違っています'],
+        });
+      } else {
+        req.login(user, { session: false }, async (error) => {
+          if (error) {
+            return res.redirect('/login');
+          }
+          const body = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+          };
+          const token = jwt.sign(body, process.env.secretOrKey);
+          res.cookie('token', token, { httpOnly: true });
+          res.redirect('/');
+        });
+      }
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
 };

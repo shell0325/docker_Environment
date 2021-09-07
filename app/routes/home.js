@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/usercontroller/finduser.controller');
+const homeController= require('../controller/home.controller');
+const DashboardController = require('../controller/dashboard.controller')
 
-router.get('/', controller.findUser);
+router.get('/', homeController.homeController);
+
+router.post('/',DashboardController.deleteController)
 
 module.exports = router;

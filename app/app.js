@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
 
 const db = require('./models/index');
 db.sequelize.sync();
@@ -14,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
+
 
 require('./config/passport')(app);
 
