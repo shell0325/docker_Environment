@@ -23,11 +23,8 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      heartsNumber: {
+      LikesNumber: {
         type: Sequelize.INTEGER
-      },
-      heartsOn: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

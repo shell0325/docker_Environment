@@ -16,7 +16,7 @@
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"
     ></script>
-    <title>Document</title>
+    <title>Dashboard</title>
   </head>
   <%- include('./header'); %>
   <body>
@@ -27,10 +27,24 @@
     <li><h1><%= results[i].title %></h1></li>
     <li><%= results[i].content %></li>
     <li>投稿者<%= results[i].username %></li>
+    <% let judge = LikesDatas.some(function(val) { %>
+       <% return val === results[i].id %>
+     <% }) %>
+     <% if(judge) { %>
     <div class="like">
-    <button class="btn" id="heartBtn"></button>
+      <form action="/dashboards/likes/<%=results[i].id%>" method="POST">
+        <button class="btn" id="heartBtn" ></button>
+      </form>
     </div>
-    <span class="number"><%= results[i].heartsNumber %></span>
+    <span class="number"><%= results[i].LikesNumber %></span>
+     <% }else if(!judge) { %>
+    <div class="nolike">
+      <form action="/dashboards/likes/<%=results[i].id%>" method="POST">
+        <button class="btn" id="heartBtn" ></button>
+      </form>
+    </div>
+    <span class="number"><%= results[i].LikesNumber %></span>
+      <%} %>
     <br>
     <% if(user.username === results[i].username){%>
       <div id="button">

@@ -1,5 +1,6 @@
 const db = require('../models/index');
 const Dashboard = db.Dashboard;
+const Likes = db.Likes;
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const validateDashboardInput = require('./validation/Dashboard');
@@ -26,8 +27,7 @@ exports.createDashboards = async (req, res) => {
       title: title,
       content: content,
       userId: userId,
-      heartsNumber: 0,
-      heartsOn: false,
+      LikesNumber: 0,
     };
     Dashboard.create(DashboardData)
       .then(function () {
@@ -111,6 +111,46 @@ exports.editPage = async (req, res) => {
       user: user,
       editId: editId,
       Data: Data,
+    });
+  });
+};
+
+exports.likesController = async (req, res) => {
+  const cookieToken = req.cookies.token;
+  const bearer = await cookieToken.split(' ');
+  const token = await bearer[0];
+  const LikesId = req.params.id;
+  const DashboardData = await Dashboard.findByPk(LikesId);
+
+  jwt.verify(token, process.env.secretOrKey, async (err, user) => {
+    Likes.findOne({
+      where: {
+        baseUserId: DashboardData.userId,
+        actionUserId: user.id,
+        DashboardId: DashboardData.id,
+      },
+    }).then(async (likesData) => {
+      if (likesData) {
+        await likesData.destroy();
+        let LikesNumber = DashboardData.LikesNumber - 1;
+        Dashboard.update(
+          { LikesNumber: LikesNumber },
+          { where: { id: DashboardData.id } }
+        );
+      } else if (!likesData) {
+        Likes.create({
+          baseUserId: DashboardData.userId,
+          actionUserId: user.id,
+          DashboardId: DashboardData.id,
+        }).then(() => {
+          let LikesNumber = DashboardData.LikesNumber + 1;
+          Dashboard.update(
+            { LikesNumber: LikesNumber },
+            { where: { id: DashboardData.id } }
+          );
+        });
+      }
+      return res.redirect('/');
     });
   });
 };

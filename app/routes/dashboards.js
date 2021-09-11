@@ -12,4 +12,6 @@ router.post('/edit/:id', DashboardController.editController);
 
 router.delete('/delete/:id', DashboardController.deleteController);
 
+router.post('/likes/:id', DashboardController.likesController);
+
 module.exports = router;
