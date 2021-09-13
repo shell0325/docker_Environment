@@ -5,6 +5,48 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const validateDashboardInput = require('./validation/Dashboard');
 
+exports.DashboardController = async (req, res, next) => {
+  const cookieToken = req.cookies.token;
+  if (cookieToken === undefined) {
+    res.redirect('/login');
+  } else if (cookieToken !== undefined) {
+    const bearer = await cookieToken.split(' ');
+    const token = await bearer[0];
+
+    jwt.verify(token, process.env.secretOrKey, async (err, user) => {
+      const LikesData = await Likes.findAll({
+        where: {
+          actionUserId: user.id,
+        },
+        attributes: {
+          exclude: [
+            'id',
+            'baseUserId',
+            'actionUserId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      });
+      const LikesDatas = [];
+      for (i = 0; i < LikesData.length; i++) {
+        LikesDatas.push(LikesData[i].DashboardId);
+      }
+      if (err) {
+        return res.sendStatus(403);
+      } else {
+        Dashboard.findAll().then(function (results) {
+          res.render('home', {
+            results,
+            user,
+            LikesDatas,
+          });
+        });
+      }
+    });
+  }
+};
+
 exports.createDashboards = async (req, res) => {
   const { errors, isValid } = validateDashboardInput(req.body);
 
@@ -31,11 +73,11 @@ exports.createDashboards = async (req, res) => {
     };
     Dashboard.create(DashboardData)
       .then(function () {
-        res.redirect('/');
+        res.redirect('/dashboards');
       })
       .catch(function (err) {
         console.log(err);
-        res.redirect('/create');
+        res.redirect('/dashboards/create');
       });
   });
 };
@@ -66,7 +108,7 @@ exports.deleteController = async (req, res) => {
     if (Data) {
       await Data.destroy();
     }
-    res.redirect('/');
+    res.redirect('/dashboards');
   });
 };
 
@@ -90,7 +132,7 @@ exports.editController = async (req, res) => {
       { where: { id: editId } }
     )
       .then(() => {
-        res.redirect('/');
+        res.redirect('/dashboards');
       })
       .catch((err) => {
         res.redirect('/edit/:id');
@@ -150,7 +192,7 @@ exports.likesController = async (req, res) => {
           );
         });
       }
-      return res.redirect('/');
+      return res.redirect('/dashboards');
     });
   });
 };

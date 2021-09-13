@@ -2,9 +2,13 @@ const express = require('express');
 const router = express.Router();
 const DashboardController = require('../controller/dashboard.controller');
 
-router.get('/create/', DashboardController.createPage);
+router.get('/', DashboardController.DashboardController);
 
-router.post('/create/', DashboardController.createDashboards);
+router.post('/', DashboardController.likesController);
+
+router.get('/create', DashboardController.createPage);
+
+router.post('/create', DashboardController.createDashboards);
 
 router.get('/edit/:id', DashboardController.editPage);
 

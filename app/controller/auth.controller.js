@@ -86,7 +86,7 @@ exports.loginController = (req, res, next) => {
           };
           const token = jwt.sign(body, process.env.secretOrKey);
           res.cookie('token', token, { httpOnly: true });
-          res.redirect('/');
+          res.redirect('/dashboards');
         });
       }
     } catch (error) {
