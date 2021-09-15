@@ -8,7 +8,7 @@ header {
   justify-content: space-between;
 }
 
-#button{
+#button {
   display: flex;
 }
 
@@ -32,6 +32,34 @@ header {
   background-image: url('../image/hart-likegray.png');
 }
 
+.nolike {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.nolike button.btn {
+  width: 30px;
+  height: 30px;
+  color: #777;
+  line-height: 2em;
+  padding: 5px 10px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#fff),
+    to(#eee)
+  );
+  background-color: white;
+  background-image: url('../image/noLikes.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.75;
+  border: none;
+}
 .like {
   display: inline-block;
   vertical-align: middle;
@@ -53,11 +81,38 @@ header {
     from(#fff),
     to(#eee)
   );
-  background-color: #eee;
-  background-image: url('../image/ダウンロード.jpeg');
+  background-color: white;
+  background-image: url('../image/Likes.png');
   background-size: contain;
   background-repeat: no-repeat;
   opacity: 0.75;
   border: none;
 }
 
+.like-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #808080;
+  margin-left: 20px;
+}
+
+#test {
+  background-image: url('../image/test.png');
+  height: 100px;
+  width: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: white;
+}
+
+#sample {
+  background-image: url('../image/Likes.png');
+  height: 100px;
+  width: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: white;
+}
